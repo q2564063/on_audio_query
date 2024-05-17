@@ -10,6 +10,8 @@ public class MethodController {
         switch call.method {
         case Method.QUERY_AUDIOS:
             AudioQuery().querySongs()
+        case Method.QUERY_LYRICS:
+            LyricsQuery().queryLyrics()
         case Method.QUERY_ALBUMS:
             AlbumQuery().queryAlbums()
         case Method.QUERY_ARTISTS:

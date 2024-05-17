@@ -8,6 +8,7 @@ struct Method {
 
     // Query methods
     static let QUERY_AUDIOS = "querySongs"
+    static let QUERY_LYRICS = "queryLyrics"
     static let QUERY_ALBUMS = "queryAlbums"
     static let QUERY_ARTISTS = "queryArtists"
     static let QUERY_GENRES = "queryGenres"

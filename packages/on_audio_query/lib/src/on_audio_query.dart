@@ -111,6 +111,10 @@ class OnAudioQuery {
     );
   }
 
+  Future<String?> queryLyrics(int id) async {
+    return platform.queryLyrics(id);
+  }
+
   /// Used to return Albums Info based in [AlbumModel].
   ///
   /// Parameters:

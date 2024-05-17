@@ -63,6 +63,17 @@ class MethodChannelOnAudioQuery extends OnAudioQueryPlatform {
   }
 
   @override
+  Future<String?> queryLyrics(int id) async {
+    final String? resultLyrics = await _channel.invokeMethod(
+      "queryLyrics",
+      {
+        "id": id,
+      },
+    );
+    return resultLyrics;
+  }
+
+  @override
   Future<List<AlbumModel>> queryAlbums({
     AlbumSortType? sortType,
     OrderType? orderType,

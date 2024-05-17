@@ -102,6 +102,10 @@ abstract class OnAudioQueryPlatform extends PlatformInterface {
     throw UnimplementedError('querySongs() has not been implemented.');
   }
 
+  Future<String?> queryLyrics(int id) {
+    throw UnimplementedError('queryLyrics() has not been implemented.');
+  }
+
   /// Used to return Albums Info based in [AlbumModel].
   ///
   /// Parameters:
