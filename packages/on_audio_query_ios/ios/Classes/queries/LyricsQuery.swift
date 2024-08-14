@@ -14,31 +14,8 @@ class LyricsQuery {
         // The 'id' of the [Song] or [Album].
         let id = args["id"] as! Int
         
-        
-        var cursor: MPMediaQuery?
-        var filter: MPMediaPropertyPredicate?
-            
-        let uri = 0
-        switch uri {
-        case 0:
-            filter = MPMediaPropertyPredicate(value: id, forProperty: MPMediaItemPropertyPersistentID)
-            cursor = MPMediaQuery.songs()
-        case 1:
-            filter = MPMediaPropertyPredicate(value: id, forProperty: MPMediaItemPropertyAlbumPersistentID)
-            cursor = MPMediaQuery.albums()
-        case 2:
-            filter = MPMediaPropertyPredicate(value: id, forProperty: MPMediaPlaylistPropertyPersistentID)
-            cursor = MPMediaQuery.playlists()
-        case 3:
-            filter = MPMediaPropertyPredicate(value: id, forProperty: MPMediaItemPropertyArtistPersistentID)
-            cursor = MPMediaQuery.artists()
-        case 4:
-            filter = MPMediaPropertyPredicate(value: id, forProperty: MPMediaItemPropertyGenrePersistentID)
-            cursor = MPMediaQuery.genres()
-        default:
-            filter = nil
-            cursor = nil
-        }
+        var filter: MPMediaPropertyPredicate? = MPMediaPropertyPredicate(value: id, forProperty: MPMediaItemPropertyPersistentID)
+        var cursor: MPMediaQuery? = MPMediaQuery.songs()
         
         if cursor == nil || filter == nil {
             Log.type.warning("Cursor or filter has null value!")
@@ -48,7 +25,6 @@ class LyricsQuery {
         
         Log.type.debug("Query config: ")
         Log.type.debug("\tid: \(id)")
-        Log.type.debug("\turi: \(uri)")
         Log.type.debug("\tfilter: \(String(describing: filter))")
 
         cursor!.addFilterPredicate(filter!)
@@ -61,20 +37,12 @@ class LyricsQuery {
         cursor?.addFilterPredicate(cloudFilter)
             
         // Query everything in background for a better performance.
-        loadLyrics(cursor: cursor, uri: uri)
+        loadLyrics(cursor: cursor)
     }
     
-    private func loadLyrics(cursor: MPMediaQuery!, uri: Int) {
+    private func loadLyrics(cursor: MPMediaQuery!) {
         DispatchQueue.global(qos: .userInitiated).async {
-            var item: MPMediaItem?
-            
-            // 'uri' == 0         -> artwork is from [Song]
-            // 'uri' == 1, 2 or 3 -> artwork is from [Album], [Playlist] or [Artist]
-            if uri == 0 {
-                item = cursor!.items?.first
-            } else {
-                item = cursor!.collections?.first?.items[0]
-            }
+            var item: MPMediaItem? = cursor!.items?.first
             
             var lyrics = item?.value(forProperty: MPMediaItemPropertyLyrics)
             
